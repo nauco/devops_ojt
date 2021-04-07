@@ -2,6 +2,10 @@ node {
      stage('Clone repository') {
          checkout scm
      }
+     stage('Initialize'){
+        def dockerHome = tool 'myDocker'
+        env.PATH = "${dockerHome}/bin:${env.PATH}"
+    }
      stage('Build image') {
          app = docker.build("191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr")
      }
