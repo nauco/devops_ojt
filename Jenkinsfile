@@ -7,7 +7,7 @@ node {
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
      stage('Build image') {
-         sh 'ls'
+         sh 'sudo systemctl start docker'
          app = docker.build("sample-ecr")  
      }
 
