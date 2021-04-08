@@ -7,7 +7,7 @@ node {
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
      stage('Build image') {
-         ls
+         sh 'ls'
          app = docker.build("sample-ecr")  
      }
 
