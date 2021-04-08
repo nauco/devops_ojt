@@ -8,7 +8,7 @@ node {
     }
      stage('Build image') {
          ls
-         #app = docker.build("sample-ecr")  
+         app = docker.build("sample-ecr")  
      }
 
      stage('Push image') {
