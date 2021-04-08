@@ -7,8 +7,7 @@ node {
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
      stage('Build image') {
-         sh 'sudo apt-get update'
-         sh 'sudo systemctl start docker'
+         sh 'chmod 777 /var/run/docker.sock'
          app = docker.build("sample-ecr")  
      }
 
