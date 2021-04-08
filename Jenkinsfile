@@ -1,23 +1,54 @@
-node {
-     stage('Clone repository') {
-         checkout scm
-     }
-     stage('Initialize'){
-        def dockerHome = tool 'myDocker'
-        env.PATH = "${dockerHome}/bin:${env.PATH}"
-        sh systemctl start docker
-    }
-     stage('Build image') {
-         app = docker.build("191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr")
-     }
+pipeline {
+  environment {
+    imagename = "imgname"
+    ecrurl = "https://191845259489.dkr.ecr.ap-northeast-2.amazonaws.com"
+    ecrcredentials = "ecr:ap-northeast-2:ecr-credit"
+    dockerImage = ''
+  } 
+  agent any
+  stages {
+    stage('Cloning Git') {
+      steps {
+                checkout scm
 
-     stage('Push image') {
-         sh 'rm  ~/.dockercfg || true'
-         sh 'rm ~/.docker/config.json || true'
-         
-         docker.withRegistry('https://191845259489.dkr.ecr.ap-northeast-2.amazonaws.com', 'ecr:ap-northeast-2:ecr-credit') {
-             app.push("${env.BUILD_NUMBER}")
-             app.push("latest")
+      }
+    }
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build imagename
+        }
+      }
+    }
+   
+stage('Deploy Master Image') {
+   when {
+      anyOf {
+            branch 'master'
+      }
      }
-  }
-}
+      steps{
+        script {
+          docker.withRegistry(ecrurl, ecrcredentials) {     
+            dockerImage.push("$BUILD_NUMBER")
+             dockerImage.push('latest')
+
+          }
+        }
+      }
+    }
+ 
+    stage('Remove Unused docker image - Master') {
+      when {
+      anyOf {
+            branch 'master'
+      }
+     }
+      steps{
+        sh "docker rmi $imagename:$BUILD_NUMBER"
+         sh "docker rmi $imagename:latest"
+
+      }
+    } // End of remove unused docker image for master
+  }  
+} //end of pipeline
