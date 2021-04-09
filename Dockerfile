@@ -3,7 +3,8 @@ FROM python:3-alpine
 WORKDIR /app
 
 COPY sample-app/requirements.txt .
-RUN pip install --trusted-host files.pythonhosted.org --trusted-host pypi.org --trusted-host pypi.python.org Flask
+RUN apt-get update && apt-get upgrade python-pip
+RUN pip install -r requirements.txt
 
 COPY sample-app .
 
