@@ -3,7 +3,7 @@ FROM python:3-alpine
 WORKDIR /app
 
 COPY sample-app/requirements.txt .
-RUN apk add --update python-pip
+RUN apk add --no-cache python3 py3-pip
 
 RUN pip install -r requirements.txt
 
