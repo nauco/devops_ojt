@@ -3,7 +3,8 @@ FROM python:3-alpine
 WORKDIR /app
 
 COPY sample-app/requirements.txt .
-RUN apt-get update && apt-get upgrade python-pip
+RUN apk add --update python-pip
+
 RUN pip install -r requirements.txt
 
 COPY sample-app .
