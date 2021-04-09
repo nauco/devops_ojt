@@ -1,9 +1,4 @@
 node {
-     stage('Start') {
-            steps {
-                slackSend (channel: '#project', color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-            }
-        }
      stage('Clone repository') {
          checkout scm
      }
@@ -24,12 +19,4 @@ node {
              app.push("latest")
      }
   }
-         post {
-        success {
-            slackSend (channel: '#project', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
-        failure {
-            slackSend (channel: '#project', color: '#FF0000', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-        }
-    }
 }
