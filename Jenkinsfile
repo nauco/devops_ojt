@@ -7,7 +7,6 @@ node {
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
      stage('Build image') {
-         sh 'sudo chmod 666 /var/run/docker.sock'
          app = docker.build("sample-ecr")  
      }
 
