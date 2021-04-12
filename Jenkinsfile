@@ -14,7 +14,7 @@ node {
          sh 'rm  ~/.dockercfg || true'
          sh 'rm ~/.docker/config.json || true'
          
-          docker.withRegistry("191845259489.dkr.ecr.ap-northeast-2.amazonaws.com", "ecr:ap-northeast-2:sample-ecr") {
+          docker.withRegistry("https://191845259489.dkr.ecr.ap-northeast-2.amazonaws.com", "ecr:ap-northeast-2:sample-ecr") {
             docker.image("sample-ecr").push()
           }
           
