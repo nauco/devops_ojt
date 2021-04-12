@@ -7,7 +7,7 @@ node {
         env.PATH = "${dockerHome}/bin:${env.PATH}"
     }
      stage('Build image') {
-        app = docker.build("sample-ecr") 
+        app = docker.build("sample-ecr", "--build-arg --network=host") 
      }
 
      stage('Push image') {
