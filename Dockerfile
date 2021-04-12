@@ -1,8 +1,14 @@
-FROM ubuntu:18.04
-RUN ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
-RUN apt upgrade -y
-RUN apt-get update -y
-RUN apt-get install nginx -y
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
+FROM python:3-alpine
 
-CMD ["nginx"]
+WORKDIR /app
+
+COPY sample-app/requirements.txt .
+RUN apk add --no-cache python3 py3-pip
+
+RUN pip install -r requirements.txt
+
+COPY sample-app .
+
+EXPOSE 5000
+
+CMD ["python", "./app.py"]
