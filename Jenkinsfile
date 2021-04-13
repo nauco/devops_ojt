@@ -9,6 +9,7 @@ node {
      stage('Build image') {
         app = docker.build("sample-ecr", "--network=host .") 
         sh("docker images")
+        sh("aws ecr get-login-password --region ap-northeast-2")
      }
 
      stage('Push image') {
