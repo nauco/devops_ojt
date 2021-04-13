@@ -9,8 +9,7 @@ node {
      stage('Build image') {
         app = docker.build("sample-ecr", "--network=host .") 
         sh("docker images")
-        sh("alias aws='docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli'")
-        sh("aws sts get-caller-identity")
+        sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli sts get-caller-identity")
      }
 
      stage('Push image') {
