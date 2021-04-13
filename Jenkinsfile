@@ -9,7 +9,7 @@ node {
      stage('Build image') {
         app = docker.build("sample-ecr", "--network=host .") 
         sh("docker images")
-        sh("docker run --rm -it -v ~/.aws:/root/.aws amazon/aws-cli --version")
+        sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli --version")
      }
 
      stage('Push image') {
