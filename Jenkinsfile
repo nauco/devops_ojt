@@ -15,9 +15,14 @@ node {
              //sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/")
           }
           stage('Push image') {
-             sh("docker tag sample-ecr:latest 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
-             sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
-          }
+             //sh("docker tag sample-ecr:latest 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
+             //sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
+             withAWS(credentials: 'ecr-credit', region: 'ap-northeast-2') {
+                  sh("docker tag sample-ecr:latest 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
+                  sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
+             }
+         }
+          
           slackSend (channel: '#project', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
      }
      catch (e) {
