@@ -10,7 +10,7 @@ node {
           stage('Build image') {
              app = docker.build("sample-ecr", "--network=host .") 
              sh("docker images")
-             sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli eks update-kubeconfig --name example")  
+             sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli eks --region ap-northeast-2 update-kubeconfig --name example")  
              sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli sts get-caller-identity")
              //sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/")
           }
