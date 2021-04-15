@@ -17,8 +17,8 @@ node {
                   script {
                         def login = ecrLogin()
                         sh "${login}"
-                        sh("docker tag sample-ecr:latest 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
-                        sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:latest")
+                        sh("docker tag sample-ecr:latest 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}")
+                        sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}")
                    }
              }
          }
