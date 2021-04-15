@@ -7,7 +7,7 @@ node {
              def dockerHome = tool 'myDocker'
              env.PATH = "${dockerHome}/bin:${env.PATH}"
          }
-          stage('Build image') {
+          /*stage('Build image') {
              app = docker.build("sample-ecr", "--network=host .") 
              sh("docker images")
              //sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/")
@@ -21,9 +21,9 @@ node {
                         sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}")
                    }
              }
-          }
+          }*/
           stage('Git Push') {
-               sh("gh repo clone nauco/opts")
+               sh("git clone https://github.com/nauco/opts")
                sh("ls")
           }
           
