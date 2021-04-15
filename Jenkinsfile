@@ -10,7 +10,6 @@ node {
           stage('Build image') {
              app = docker.build("sample-ecr", "--network=host .") 
              sh("docker images")
-             sh("git --version")
              //sh("docker run --rm -v ~/.aws:/root/.aws amazon/aws-cli ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/")
           }
           stage('Push image') {
@@ -22,7 +21,11 @@ node {
                         sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}")
                    }
              }
-         }
+          }
+          stage('Git Push') {
+               sh("gh repo clone nauco/opts")
+               sh("ls")
+          }
           
           slackSend (channel: '#project', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
      }
