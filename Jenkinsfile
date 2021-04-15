@@ -24,7 +24,7 @@ node {
           }*/
           stage('Git Push') {
                sh("git clone https://github.com/nauco/opts")
-               sh("ls")
+               sh("git config --list")
           }
           
           slackSend (channel: '#project', color: '#00FF00', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
