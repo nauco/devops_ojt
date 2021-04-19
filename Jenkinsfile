@@ -23,7 +23,7 @@ node {
              }
           }
           stage('Clone and Push manifest') {
-               def gitValues = git branch: 'main', credentialsId: '5765a451-0e4b-4558-b996-9c4e77e9fe70', url:'git@github.com:nauco/opts.git'
+               def gitValues = git branch: 'main', credentialsId: '5765a451-0e4b-4558-b996-9c4e77e9fe70', url:'git@github.com:nauco/ops.git'
                sh('cat deployment.yaml')
                def filename = 'deployment.yaml'
                def data = readYaml file: filename
