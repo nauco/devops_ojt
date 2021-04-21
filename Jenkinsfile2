@@ -45,12 +45,19 @@ node {
                sh('git config --global user.name "hodong"')
                sh('git add .')
                sh('git commit -m "update image"')
-               sh('curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.0.1/argocd-linux-amd64')
-               sh('chmod +x /usr/local/bin/argocd')
-               sh('argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse')
                sshagent(['5765a451-0e4b-4558-b996-9c4e77e9fe70']) {
                     sh "git push origin main"
                }
+          }
+          stage('Trigger Argocd and Deploy') {
+               
+               sh('curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.0.1/argocd-linux-amd64')
+               sh('chmod +x /usr/local/bin/argocd')
+               withCredentials([string(credentialsId: "argocd-deploy-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
+                    sh('argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse')
+               }
+               
+          
           }
           slackSend (channel: '#project', color: 'good', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
      }
