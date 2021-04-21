@@ -47,7 +47,7 @@ node {
                sh('git commit -m "update image"')
                sh('curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.0.1/argocd-linux-amd64')
                sh('chmod +x /usr/local/bin/argocd')
-               sh('argocd app list')
+               sh('argocd version')
                sshagent(['5765a451-0e4b-4558-b996-9c4e77e9fe70']) {
                     sh "git push origin main"
                }
