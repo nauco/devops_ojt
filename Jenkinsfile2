@@ -45,6 +45,9 @@ node {
                sh('git config --global user.name "hodong"')
                sh('git add .')
                sh('git commit -m "update image"')
+               sh('VERSION=$(curl --silent "https://api.github.com/repos/argoproj/argo-cd/releases/latest" | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')')
+               sh('curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/$VERSION/argocd-linux-amd64')
+               sh('chmod +x /usr/local/bin/argocd')
                sh('argocd app list')
                sshagent(['5765a451-0e4b-4558-b996-9c4e77e9fe70']) {
                     sh "git push origin main"
