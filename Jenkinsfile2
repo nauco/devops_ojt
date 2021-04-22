@@ -3,6 +3,7 @@ node {
           stage('Slack notify') {
                slackSend (channel: '#project', color: 'good', message: "Start Pipeline: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
           }
+          /*
           stage('Clone repository') {
               checkout scm
           }
@@ -49,16 +50,18 @@ node {
                     sh "git push origin main"
                }
           }
+          */
           stage('Trigger Argocd and Deploy') {
                
                sh('curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.0.1/argocd-linux-amd64')
                sh('chmod +x /usr/local/bin/argocd')
                withCredentials([string(credentialsId: "argo-pw", variable: 'ARGOCD_PASSWORD')]) {
                     //argocd login a7810fdd703994a69a0eb5ca5976de3b-1864198795.ap-northeast-2.elb.amazonaws.com:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure
-                    sh '''
-                    argocd login 10.100.122.41:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure
-                    argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
-                    '''
+                    sh('argocd login 10.100.122.41:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
+                    APP_NAME = sh( script: 'gocd app list -o name | grep "\<flask\>"',   returnStdout: true ).trim()
+                    echo "APP_NAME: ${APP_NAME}"
+                    //sh('argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse')
+                    
                }
                
           
