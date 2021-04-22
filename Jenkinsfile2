@@ -55,7 +55,7 @@ node {
                sh('chmod +x /usr/local/bin/argocd')
                withCredentials([string(credentialsId: "argocd-deploy-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
                     sh '''
-                    ARGOCD_SERVER="https://a7810fdd703994a69a0eb5ca5976de3b-1864198795.ap-northeast-2.elb.amazonaws.com/"
+                    ARGOCD_SERVER="10.100.122.41"
                     argocd login ARGOCD_SERVER --auth-token=ARGOCD_AUTH_TOKEN --grpc-web 
                     argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
                     '''
