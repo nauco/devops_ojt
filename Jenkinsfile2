@@ -32,7 +32,7 @@ node {
                def data = readYaml file: filename
 
                // Change something in the file
-               sh "echo ${data.spec.template.spec.containers[0].image}"
+               //sh "echo ${data.spec.template.spec.containers[0].image}"
 
                //def pattern = ~/:(\d+)$/
                //def newV = v.replaceFirst(pattern) { _, patch ->":${(patch as Integer) + 1}" }
@@ -55,7 +55,8 @@ node {
                sh('chmod +x /usr/local/bin/argocd')
                withCredentials([string(credentialsId: "argocd-deploy-role", variable: 'ARGOCD_AUTH_TOKEN')]) {
                     sh '''
-                    ARGOCD_SERVER="10.100.122.41"
+                    //ARGOCD_SERVER="10.100.122.41"
+                    ARGOCD_SERVER="https://a7810fdd703994a69a0eb5ca5976de3b-1864198795.ap-northeast-2.elb.amazonaws.com/"
                     argocd login ARGOCD_SERVER --auth-token=ARGOCD_AUTH_TOKEN --grpc-web 
                     argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
                     '''
