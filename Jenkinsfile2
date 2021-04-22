@@ -59,7 +59,7 @@ node {
                     //argocd login a7810fdd703994a69a0eb5ca5976de3b-1864198795.ap-northeast-2.elb.amazonaws.com:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure
                     sh('argocd login 10.100.122.41:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
                     sh '''
-                    APPNAME=`argocd app list -o name | grep '\<flask\>'`
+                    APPNAME=`argocd app list -o name | grep '\\<flask\\>'`
                     if [ -z ${APPNAME} ]
                     then
                         echo "hi"
