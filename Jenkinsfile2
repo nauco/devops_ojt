@@ -59,7 +59,7 @@ node {
                     //argocd login a7810fdd703994a69a0eb5ca5976de3b-1864198795.ap-northeast-2.elb.amazonaws.com:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure
                     sh('argocd login 10.100.122.41:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
                     sh '''
-                    if argocd app list -o name | grep -Fx 'guestbook' ; then
+                    if argocd app list -o name | grep -x 'guestbook' ; then
                         echo 'already exist'
                     else
                         argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
