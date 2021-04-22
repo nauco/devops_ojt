@@ -59,12 +59,12 @@ node {
                     //argocd login a7810fdd703994a69a0eb5ca5976de3b-1864198795.ap-northeast-2.elb.amazonaws.com:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure
                     sh('argocd login 10.100.122.41:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
                     sh '''
-                    APPNAME=`argocd app list -o name | grep '\\<flask\\>'`
+                    APPNAME=`argocd app list -o name | grep '\\<guestbook\\>'`
                     if [ -z ${APPNAME} ]
                     then
-                        echo "hi"
+                        argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
                     else
-                        echo "bye"
+                        echo "${APPNAME} is already exist."
                     fi
                     '''
                     //sh('argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse')
