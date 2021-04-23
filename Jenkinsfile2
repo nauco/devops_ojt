@@ -3,7 +3,6 @@ node {
           stage('Slack notify') {
                slackSend (channel: '#project', color: 'good', message: "Start Pipeline: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
           }
-          /*
           stage('Clone repository') {
               checkout scm
           }
@@ -41,7 +40,6 @@ node {
                     sh "git push origin main"
                }
           }
-          */
           stage('Trigger Argocd and Deploy') {
                sh('curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.0.1/argocd-linux-amd64')
                sh('chmod +x /usr/local/bin/argocd')
@@ -55,8 +53,6 @@ node {
                     fi
                     '''
                }
-               
-          
           }
           slackSend (channel: '#project', color: 'good', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
      }
