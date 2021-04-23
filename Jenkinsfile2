@@ -57,7 +57,7 @@ node {
                sh('chmod +x /usr/local/bin/argocd')
                withCredentials([string(credentialsId: "argo-pw", variable: 'ARGOCD_PASSWORD')]) {
                     //argocd login a7810fdd703994a69a0eb5ca5976de3b-1864198795.ap-northeast-2.elb.amazonaws.com:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure
-                    sh('argocd login 10.100.122.41:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
+                    sh('argocd login 10.100.122.41:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web')
                     sh '''
                     if argocd app list -o name | grep -x 'guestbook' ; then
                         echo 'already exist'
