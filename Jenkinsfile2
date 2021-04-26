@@ -69,6 +69,7 @@ def deploy_app() {
               echo 'already exist'
           else
               argocd app create flask --repo https://github.com/nauco/ops.git --path ./ --dest-namespace default --dest-server https://kubernetes.default.svc --sync-policy auto
+              kubectl get pods
           fi
           '''
           //argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
