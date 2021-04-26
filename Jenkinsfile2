@@ -65,13 +65,13 @@ def deploy_app() {
      withCredentials([string(credentialsId: "argo-pw", variable: 'ARGOCD_PASSWORD')]) {
           sh('argocd login 10.100.200.201:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
           sh '''
-          if argocd app list -o name | grep -x 'guestbook' ; then
+          if argocd app list -o name | grep -x 'flask' ; then
               echo 'already exist'
           else
               argocd app create flask --repo https://github.com/nauco/ops.git --path ./ --dest-namespace default --dest-server https://kubernetes.default.svc --sync-policy auto
-              kubectl get pods
           fi
           '''
+          sh('kubectl get pods')
           //argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
      }
 }
