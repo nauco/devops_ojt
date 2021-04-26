@@ -71,7 +71,6 @@ def deploy_app() {
               argocd app create flask --repo https://github.com/nauco/ops.git --path ./ --dest-namespace default --dest-server https://kubernetes.default.svc --sync-policy auto
           fi
           '''
-          sh('kubectl get pods')
           //argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook --dest-namespace default --dest-server https://kubernetes.default.svc --directory-recurse
      }
 }
