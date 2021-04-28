@@ -8,8 +8,7 @@ node {
                env.PATH = "${dockerHome}/bin:${env.PATH}"
           }
           stage('Build image') {
-               sh('docker images')
-               sh('docker build sample-ecr --network=host .')
+               sh('docker build -t sample-ecr --network=host .')
           }
           stage('Push image') {
                ecr_push()
