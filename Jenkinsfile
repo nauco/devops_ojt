@@ -15,7 +15,7 @@ node {
           }
           stage('Clone and Push manifest') {
                //git Clone
-               def gitValues = git branch: 'main', credentialsId: '5b07c2f4-52ca-499b-b926-2ce8e787614b', url:'git@github.com:nauco/ops.git'
+               def gitValues = git branch: 'main', credentialsId: '18166a2e-d223-43ab-801f-fdad4774dc17', url:'git@github.com:nauco/ops.git'
                modify_manifest()
                git_push()
           }
