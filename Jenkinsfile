@@ -2,15 +2,14 @@ node {
      try{
           stage('Clone repository') {
                checkout scm
-               sh('ls')
           }
           stage('Initialize'){
                def dockerHome = tool 'myDocker'
                env.PATH = "${dockerHome}/bin:${env.PATH}"
           }
           stage('Build image') {
-               app = docker.build("sample-ecr", "--network=host .") 
                sh('docker images')
+               app = docker.build("sample-ecr", "--network=host .")      
           }
           stage('Push image') {
                ecr_push()
