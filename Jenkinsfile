@@ -51,9 +51,8 @@ def git_push() {
      sh('git config --global user.name "hodong"')
      sh('git add .')
      sh('git commit -m "update image"')
-     sshagent(['5765a451-0e4b-4558-b996-9c4e77e9fe70']) {
-          sh "git push origin main"
-     }
+     sh('git push origin main')
+
 }
 
 def deploy_app() {
