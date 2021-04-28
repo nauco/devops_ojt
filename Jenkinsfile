@@ -15,7 +15,7 @@ node {
           }
           stage('Clone and Push manifest') {
                //git Clone
-               def gitValues = git branch: 'main', credentialsId: '5765a451-0e4b-4558-b996-9c4e77e9fe70', url:'git@github.com:nauco/ops.git'
+               def gitValues = git branch: 'main', url:'git@github.com:nauco/ops.git'
                modify_manifest()
                git_push()
           }
@@ -37,11 +37,13 @@ def ecr_push() {
 }
 
 def modify_manifest() {
+     sh "cat deployment.yaml"
      def filename = 'deployment.yaml'
      def data = readYaml file: filename
      data.spec.template.spec.containers[0].image = "191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}"
      sh "rm $filename"
      writeYaml file: filename, data: data
+     sh "cat deployment.yaml"
 }
 
 def git_push() {
