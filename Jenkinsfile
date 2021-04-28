@@ -2,6 +2,7 @@ node {
      try{
           stage('Clone repository') {
                checkout scm
+               sh('ls')
           }
           stage('Initialize'){
                def dockerHome = tool 'myDocker'
@@ -9,6 +10,7 @@ node {
           }
           stage('Build image') {
                app = docker.build("sample-ecr", "--network=host .") 
+               sh('docker images')
           }
           stage('Push image') {
                ecr_push()
