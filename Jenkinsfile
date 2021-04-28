@@ -15,20 +15,15 @@ node {
           }
           stage('Clone and Push manifest') {
                //git Clone
-               //def gitValues = git branch: 'main', credentialsId: 'e347081a-3fef-4da4-ad62-bd7eca486575', url:'git@github.com:nauco/ops.git'
-
+               def gitValues = git branch: 'main', credentialsId: 'e347081a-3fef-4da4-ad62-bd7eca486575', url:'git@github.com:nauco/ops.git'
+               modify_manifest()
+               sh('git config --global user.email "hodong42@gmail.com"') 
+               sh('git config --global user.name "hodong"')
+               sh('git add .')
+               sh('git commit -m "update image"')
                sshagent(['e347081a-3fef-4da4-ad62-bd7eca486575']) {
-                    sh('git clone git@github.com:nauco/ops.git')
-                    modify_manifest()
-                    sh('git config --global user.email "hodong42@gmail.com"') 
-                    sh('git config --global user.name "hodong"')
-                    sh('git add .')
-                    sh('git commit -m "update image"')
                     sh "git push origin main"
                }
-               
-               //modify_manifest()
-               //git_push()
           }
           stage('Trigger Argocd and Deploy') {
                deploy_app()
@@ -55,16 +50,6 @@ def modify_manifest() {
      sh "rm $filename"
      writeYaml file: filename, data: data
      sh "cat deployment.yaml"
-}
-
-def git_push() {
-     sh('git config --global user.email "hodong42@gmail.com"') 
-     sh('git config --global user.name "hodong"')
-     sh('git add .')
-     sh('git commit -m "update image"')
-     sshagent(['e347081a-3fef-4da4-ad62-bd7eca486575']) {
-          sh "git push origin main"
-     }
 }
 
 def deploy_app() {
