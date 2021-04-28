@@ -9,7 +9,7 @@ node {
           }
           stage('Build image') {
                sh('docker images')
-               app = docker.build("sample-ecr", "--network=host .")      
+               sh('docker build sample-ecr --network=host .')
           }
           stage('Push image') {
                ecr_push()
