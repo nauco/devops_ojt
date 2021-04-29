@@ -1,5 +1,8 @@
 node {
      try{
+          stage('Slack notify') {
+               slackSend (channel: '#project', color: 'good', message: "Start Pipeline: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+          }
           stage('Clone repository') {
                checkout scm
           }
@@ -28,8 +31,10 @@ node {
           stage('Trigger Argocd and Deploy') {
                deploy_app()
           }
+          slackSend (channel: '#project', color: 'good', message: "SUCCESSFUL: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
      }
      catch (e) {
+          slackSend (channel: '#project', color: 'danger', message: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")    
      }
 }
 
