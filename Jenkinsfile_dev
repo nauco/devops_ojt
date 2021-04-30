@@ -22,7 +22,7 @@ node {
           stage('Clone and Push manifest') {
                //git Clone
                def gitValues = git branch: 'main', credentialsId: 'e347081a-3fef-4da4-ad62-bd7eca486575', url:'git@github.com:nauco/ops.git'
-               modify_manifest()
+               modify_manifest('deployment.yaml')
                sh('git config --global user.email "hodong42@gmail.com"') 
                sh('git config --global user.name "hodong"')
                sh('git add .')
@@ -50,8 +50,8 @@ def ecr_push() {
      }
 }
 
-def modify_manifest() 
-     def filename = 'deployment.yaml'
+def modify_manifest(path) 
+     def filename = path
      def data = readYaml file: filename
      data.spec.template.spec.containers[0].image = "${ECR_URI}:${env.BUILD_NUMBER}"
      sh "rm $filename"
