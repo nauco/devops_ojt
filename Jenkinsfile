@@ -61,7 +61,7 @@ def deploy_app() {
      sh('curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v2.0.1/argocd-linux-amd64')
      sh('chmod +x /usr/local/bin/argocd')
      withCredentials([string(credentialsId: "argo-pw", variable: 'ARGOCD_PASSWORD')]) {
-          sh('argocd login 10.100.31.93:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
+          sh('argocd login 10.100.216.26:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
           sh '''
           if argocd app list -o name | grep -x 'flask' ; then
               echo 'already exist'
