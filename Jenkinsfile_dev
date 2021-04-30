@@ -1,5 +1,5 @@
-def ECR_URI = "191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr"
-def APP_NAME = "flask_dev"
+ECR_URI = "191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr"
+APP_NAME = "flask_dev"
 
 node {
      try{
