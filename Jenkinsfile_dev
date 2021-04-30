@@ -23,6 +23,7 @@ node {
                //git Clone
                def gitValues = git branch: 'main', credentialsId: 'e347081a-3fef-4da4-ad62-bd7eca486575', url:'git@github.com:nauco/ops.git'
                modify_manifest('deployment.yaml')
+               modify_manifest('/prod/deployment.yaml')
                sh('git config --global user.email "hodong42@gmail.com"') 
                sh('git config --global user.name "hodong"')
                sh('git add .')
@@ -69,7 +70,6 @@ def deploy_app() {
           else
               argocd app create ${APP_NAME} --repo https://github.com/nauco/ops.git --path ./ --dest-namespace default --dest-server https://kubernetes.default.svc --sync-policy auto
               argocd app patch ${APP_NAME} --patch '{"metadata": {"annotations": {"notifications.argoproj.io/subscribe.on-sync-succeeded.slack":"project"}}}' --type merge
-              argocd app patch ${APP_NAME} --patch '{"metadata": {"annotations": {"notifications.argoproj.io/subscribe.on-deployed.slack":"project"}}}' --type merge
           fi
           """
      }
