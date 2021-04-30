@@ -1,4 +1,5 @@
 ECR_URI = "191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr"
+APP_NAME = "flask-dev"
 
 node {
      try{
@@ -64,13 +65,13 @@ def deploy_app() {
      sh('chmod +x /usr/local/bin/argocd')
      withCredentials([string(credentialsId: "argo-pw", variable: 'ARGOCD_PASSWORD')]) {
           sh('argocd login 10.100.216.26:80 --username admin --password=$ARGOCD_PASSWORD --grpc-web --insecure')
-          sh '''
-          if argocd app list -o name | grep -x 'flask' ; then
+          sh """
+          if argocd app list -o name | grep -x '${APP_NAME}' ; then
               echo 'already exist'
           else
-              argocd app create flask --repo https://github.com/nauco/ops.git --path ./ --dest-namespace default --dest-server https://kubernetes.default.svc --sync-policy auto
-              argocd app patch flask --patch '{"metadata": {"annotations": {"notifications.argoproj.io/subscribe.on-sync-succeeded.slack":"project"}}}' --type merge
+              argocd app create ${APP_NAME} --repo https://github.com/nauco/ops.git --path ./ --dest-namespace default --dest-server https://kubernetes.default.svc --sync-policy auto
+              argocd app patch ${APP_NAME} --patch '{"metadata": {"annotations": {"notifications.argoproj.io/subscribe.on-sync-succeeded.slack":"project"}}}' --type merge
           fi
-          '''
+          """
      }
 }
