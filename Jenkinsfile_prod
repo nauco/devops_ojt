@@ -4,7 +4,7 @@ APP_NAME = "flask-prod"
 node {
      try{
           stage('Slack notify') {
-               slackSend (channel: '#project', color: 'good', message: "Start Pipeline: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
+               slackSend (channel: '#project', color: 'good', message: "Start Product Pipeline: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'")
           }
           stage('Clone repository') {
                checkout scm
