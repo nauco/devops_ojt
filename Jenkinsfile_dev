@@ -1,5 +1,5 @@
 ECR_URI = "191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr"
-APP_NAME = "flask-dev"
+APP_NAME = "flask-prod"
 
 node {
      try{
@@ -71,6 +71,7 @@ def deploy_app() {
           else
               argocd app create ${APP_NAME} --repo https://github.com/nauco/ops.git --path ./ --dest-namespace default --dest-server https://kubernetes.default.svc --sync-policy auto
               argocd app patch ${APP_NAME} --patch '{"metadata": {"annotations": {"notifications.argoproj.io/subscribe.on-sync-succeeded.slack":"project"}}}' --type merge
+              argocd app patch ${APP_NAME} --patch '{"metadata": {"annotations": {"notifications.argoproj.io/subscribe.on-deployed.slack":"project"}}}' --type merge
           fi
           """
      }
