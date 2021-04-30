@@ -1,3 +1,5 @@
+ECR_URI = "191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr"
+
 node {
      try{
           stage('Slack notify') {
@@ -42,8 +44,8 @@ def ecr_push() {
      withAWS(credentials: 'ecr-credit', region: 'ap-northeast-2') {
           def login = ecrLogin()
           sh "${login}"
-          sh("docker tag sample-ecr:latest 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}")
-          sh("docker push 191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}")
+          sh("docker tag sample-ecr:latest ${ECR_URI}:${env.BUILD_NUMBER}")
+          sh("docker push ${ECR_URI}:${env.BUILD_NUMBER}")
      }
 }
 
@@ -51,7 +53,7 @@ def modify_manifest() {
      sh "cat deployment.yaml"
      def filename = 'deployment.yaml'
      def data = readYaml file: filename
-     data.spec.template.spec.containers[0].image = "191845259489.dkr.ecr.ap-northeast-2.amazonaws.com/sample-ecr:${env.BUILD_NUMBER}"
+     data.spec.template.spec.containers[0].image = "${ECR_URI}:${env.BUILD_NUMBER}"
      sh "rm $filename"
      writeYaml file: filename, data: data
      sh "cat deployment.yaml"
