@@ -3,3 +3,14 @@
 > DevOps팀 OJT(on the job training) 프로젝트
 
 ## 개요
+ Kubernetes 기반 Container 인프라 구축
+ Kubernetes 기반 CI/CD 파이프라인 구축
+ 파이프라인 알림과 제어기능 구현
+
+## 내용
+- 인프라 플랫폼으로 AWS EKS를 사용
+- EKS위에 Jenkins와 ArgoCD를 배포하여 사용
+- 이미지는 AWS ECR에 저장
+- Github - Jenkins - ArgoCD로 파이프라인을 구축
+- 파이프라인 동작과정은 Slack으로 알림 기능을 구현
+- 파이프라인 제어는 AWS Lambda와 API Gateway, Slack으로 구현
