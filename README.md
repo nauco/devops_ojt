@@ -3,8 +3,7 @@
 > DevOps팀 OJT(on the job training) 프로젝트
 
 ## 개요
- Kubernetes 기반 Container 인프라 구축   
- Kubernetes 기반 CI/CD 파이프라인 구축   
+ AWS EKS 위에 컨테이너 기반 파이프라인 구축   
  파이프라인 알림과 제어기능 구현   
 
 ## 내용
