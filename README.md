@@ -6,6 +6,12 @@
  AWS EKS 위에 컨테이너 기반 파이프라인 구축   
  파이프라인 알림과 제어기능 구현   
 
+
+## Architecture
+![Pipeline](images/arch1.png)
+
+![AWS EKS](images/arch2.png)
+
 ## 내용
 - 인프라 플랫폼으로 AWS EKS를 사용
 - EKS위에 Jenkins와 ArgoCD를 배포하여 사용
