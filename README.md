@@ -12,6 +12,8 @@
 
 ![AWS EKS](images/arch2.png)
 
+![API](images/arch3.png)
+
 ## 내용
 - 인프라 플랫폼으로 AWS EKS를 사용
    - eksctl을 사용하여 구축
